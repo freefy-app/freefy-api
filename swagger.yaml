@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  description: "Access token should be sent along with every request to SITE_NAME API in authorization header: `Authorization: Bearer <Token>` <br> This token can either be acquired via `auth/login` endpoint or from account settings page on [SITE_NAME website](https://freefy.app/account/settings)."
+  description: "Access token should be sent along with every request to SITE_NAME API in authorization header: `Authorization: Bearer <Token>` <br> This token can either be acquired via `auth/login` endpoint or from account settings page on [SITE_NAME website](SITE_URL/account-settings)."
   version: "1.0.0"
   title: SITE_NAME API
 security:
@@ -14,10 +14,6 @@ tags:
   - name: Tags
   - name: Genres
   - name: Users
-  - name: Uploads
-    description: Upload files to SITE_NAME
-  - name: Chunked Uploads
-    description: Upload files using chunked uploading
   - name: Auth
     description: Authenticate requests to the API
   - name: Files and Folders
@@ -326,7 +322,7 @@ Search results include hits from all the specified types.'
         '403':
           $ref: '#/components/schemas/403-Response'
   /playlists/{id}/tracks/add:
-    get:
+    post:
       tags:
         - Playlists
       summary: Add one or more tracks to a user's playlist
@@ -366,7 +362,7 @@ Search results include hits from all the specified types.'
         '403':
           $ref: '#/components/schemas/403-Response'
   /playlists/{id}/tracks/remove:
-    get:
+    post:
       tags:
         - Playlists
       summary: Remove one or more tracks from a user's playlist
@@ -480,7 +476,7 @@ Search results include hits from all the specified types.'
           description: 'Comma separated list of additional data to fetch for this artist. Supported values: similar, genres, albums, topTracks.'
           schema:
             type: string
-            example: albums, genres
+            example: albums,genres
             default: null
       responses:
         '200':
@@ -698,7 +694,7 @@ Search results include hits from all the specified types.'
           description: 'Comma separated list of additional data to fetch for this album. Supported values: tags, genres, artists, tracks.'
           schema:
             type: string
-            example: artists, genres, tags
+            example: artists,genres,tags
             default: null
       responses:
         '200':
@@ -747,7 +743,7 @@ Search results include hits from all the specified types.'
           description: 'Comma separated list of additional data to fetch for this track. Supported values: tags, genres, artists, album.'
           schema:
             type: string
-            example: album, genres, tags
+            example: album,genres,tags
             default: null
       responses:
         '200':
@@ -891,9 +887,7 @@ Search results include hits from all the specified types.'
                   status:
                     type: string
                     example: success
-                  tag:
-                    $ref: '#/components/schemas/Tag'
-                  tracks:
+                  pagination:
                     allOf:
                       - $ref: '#/components/schemas/Pagination'
                       - type: object
@@ -942,9 +936,7 @@ Search results include hits from all the specified types.'
                   status:
                     type: string
                     example: success
-                  tag:
-                    $ref: '#/components/schemas/Tag'
-                  tracks:
+                  pagination:
                     allOf:
                       - $ref: '#/components/schemas/Pagination'
                       - type: object
@@ -1591,7 +1583,7 @@ components:
         id:
           type: integer
           format: int64
-        display_name:
+        name:
           type: string
         avatar:
           type: string
